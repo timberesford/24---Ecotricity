@@ -16,9 +16,7 @@ import numpy as np
 import requests
 import plotly.express as px
 import plotly.graph_objs as go
-from datetime import datetime, timedelta, date
-import time
-import json
+from datetime import datetime, timedelta
 
 #Class to generate date/time strings required for API requests
 
