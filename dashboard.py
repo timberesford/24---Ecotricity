@@ -27,7 +27,7 @@ class Dtnow:
     self.year = str(now.strftime("%Y"))
     self.month = str(now.strftime("%m"))
     self.day = str(now.strftime("%d"))
-    self.minutes = str(now.strftime("%d"))
+    self.minutes = str(now.strftime("%M"))
     self.hours = str(now.strftime("%H"))
     self.hours_end = "23"
     self.minutes_end = "59"
@@ -53,7 +53,7 @@ def fetch_demand_forecast():
         dt = Dtnow()
 
         # Static parts of URL to call elexon API. Dynamic parts regarding time and date generated in Dtnow
-        base_url_1 = "https://data.elexon.co.uk/bmrs/api/v1/forecast/demand/total/day-ahead?from="
+        base_url_1 = "https://data.elexon.co.uk/bmrs/api/v1/forecast/demand/day-ahead/latest?from="
         base_url_2 = "&to="
         base_url_3 = "&format=json"
         
@@ -146,7 +146,7 @@ st.subheader("Today: Generation vs Demand")
 if not demand_forecast_today_df.empty:
     # Create indvidual lines to plot, specifying line colours
     fig = go.Figure([
-            go.Scatter(x=demand_forecast_today_df['startTime'], y=demand_forecast_today_df['quantity'],mode='lines+markers', name='Transmission System Demand',line=dict(color="red")),
+            go.Scatter(x=demand_forecast_today_df['startTime'], y=demand_forecast_today_df['transmissionSystemDemand'],mode='lines+markers', name='Transmission System Demand',line=dict(color="red")),
             go.Scatter(x=solar_forecast_today['startTime'], y=solar_forecast_today['quantity'],mode='lines+markers',name='Solar Generation',line=dict(color="yellow")),
             go.Scatter(x=wind_offshore_forecast_today['startTime'], y=wind_offshore_forecast_today['quantity'],mode='lines+markers',name='Wind Offshore Generation',line=dict(color="white")),
             go.Scatter(x=wind_onshore_forecast_today['startTime'], y=wind_onshore_forecast_today['quantity'],mode='lines+markers',name='Wind Onshore Generation',line=dict(color="green"))   
@@ -185,7 +185,7 @@ if 'businessType' in generation_forecast_tmrw_df.columns:
     if not demand_forecast_tmrw_df.empty:
         fig = go.Figure([
                 # Create indvidual lines to plot, specifying line colours
-                go.Scatter(x=demand_forecast_tmrw_df['startTime'], y=demand_forecast_tmrw_df['quantity'],mode='lines+markers', name='Transmission System Demand',line=dict(color="red")),
+                go.Scatter(x=demand_forecast_tmrw_df['startTime'], y=demand_forecast_tmrw_df['transmissionSystemDemand'],mode='lines+markers', name='Transmission System Demand',line=dict(color="red")),
                 go.Scatter(x=solar_forecast_tmrw['startTime'], y=solar_forecast_tmrw['quantity'],mode='lines+markers',name='Solar Generation',line=dict(color="yellow")),
                 go.Scatter(x=wind_offshore_forecast_tmrw['startTime'], y=wind_offshore_forecast_tmrw['quantity'],mode='lines+markers',name='Wind Offshore Generation',line=dict(color="white")),
                 go.Scatter(x=wind_onshore_forecast_tmrw['startTime'], y=wind_onshore_forecast_tmrw['quantity'],mode='lines+markers',name='Wind Onshore Generation',line=dict(color="green"))
